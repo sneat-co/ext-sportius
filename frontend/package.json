@@ -6,7 +6,7 @@
   "packageManager": "pnpm@11.0.9",
   "scripts": {},
   "dependencies": {
-    "@angular/core": "21.2.9",
+    "@angular/core": "21.2.17",
     "@sneat/core": "0.22.1",
     "@sneat/data": "0.22.1",
     "@sneat/dto": "0.22.1",
@@ -17,10 +17,10 @@
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "2.2.0",
     "@analogjs/vitest-angular": "2.2.0",
-    "@angular/build": "21.2.7",
-    "@angular/compiler": "21.2.9",
-    "@angular/compiler-cli": "21.2.9",
-    "@angular/platform-browser": "21.2.9",
+    "@angular/build": "21.2.19",
+    "@angular/compiler": "21.2.17",
+    "@angular/compiler-cli": "21.2.18",
+    "@angular/platform-browser": "21.2.17",
     "@eslint/js": "^9.8.0",
     "@nx/angular": "22.7.5",
     "@nx/eslint": "22.7.5",
