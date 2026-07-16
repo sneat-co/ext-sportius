@@ -48,7 +48,12 @@
     ],
     "projectsRelationship": "fixed",
     "version": {
-      "preVersionCommand": "pnpm nx build ext-template-contract"
+      "// conventionalCommits": "Load-bearing in CI, and its absence fails silently. Without it `nx release --yes` has no way to compute a bump, so it drops into its interactive version picker ('Custom exact version'), reads no input on a non-TTY runner, publishes nothing — and still exits 0. The workflow goes green while npm stays empty. Mirrors ext-debtus.",
+      "conventionalCommits": true,
+      "// fallbackCurrentVersionResolver": "currentVersionResolver is git-tag (see the project's project.json); a repo with no tags yet has nothing to read, so fall back to the version on disk.",
+      "fallbackCurrentVersionResolver": "disk",
+      "preVersionCommand": "pnpm exec nx run ext-template-contract:build",
+      "versionActions": "@nx/js/src/release/version-actions"
     },
     "releaseTagPattern": "v{version}",
     "changelog": {

@@ -11,6 +11,16 @@ name: Publish package
 
 on:
   workflow_dispatch:
+    inputs:
+      specifier:
+        description: >-
+          Explicit version for a seed release (e.g. 0.1.0). Leave blank to let
+          conventional commits pick the bump. Needed once per repo: with no git
+          tag to resolve from, nx falls back to the manifest and bumps from
+          there, so the first release lands wherever that maths says rather than
+          where you want it.
+        required: false
+        default: ''
   push:
     branches: [main]
     paths:
@@ -23,7 +33,9 @@ jobs:
     with:
       working-directory: frontend
       build-command: pnpm exec nx build ext-template-contract
-      publish-command: pnpm exec nx release --yes && git push --follow-tags
+      # `inputs.specifier` is empty on push, so this is a plain conventional-
+      # commits release there and an explicit one on demand.
+      publish-command: pnpm exec nx release ${{ inputs.specifier }} --yes && git push --follow-tags
     # Required, and easy to omit: npm-publish.yml reads secrets.NPM_TOKEN, and a
     # called workflow receives NO secrets — not even org-level ones — unless the
     # caller passes them. Without this the publish runs unauthenticated and npm
