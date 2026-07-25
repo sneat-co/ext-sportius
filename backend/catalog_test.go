@@ -2,6 +2,25 @@ package sportius
 
 import "testing"
 
+func TestSportCatalogHasStableUniqueCodes(t *testing.T) {
+	seen := make(map[SportID]bool, len(SportCatalog))
+	for _, sport := range SportCatalog {
+		if sport.ID == "" {
+			t.Fatal("sport ID is empty")
+		}
+		if seen[sport.ID] {
+			t.Fatalf("duplicate sport ID: %s", sport.ID)
+		}
+		seen[sport.ID] = true
+		if sport.LabelKey == "" {
+			t.Fatalf("sport %s has no localisation key", sport.ID)
+		}
+	}
+	if !seen[SportOther] {
+		t.Fatal("extensible sport catalogue has no other entry")
+	}
+}
+
 func TestRoleCatalogHasStableUniqueCodes(t *testing.T) {
 	seen := make(map[RoleID]bool, len(RoleCatalog))
 	for _, role := range RoleCatalog {

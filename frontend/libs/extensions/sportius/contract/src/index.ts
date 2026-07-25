@@ -27,6 +27,23 @@ export type GenderCategory = 'unspecified' | 'male' | 'female' | 'mixed' | 'othe
 export type JoinPolicy = 'open' | 'approval-required' | 'invite-only';
 export type JoinStatus = 'joined' | 'requested' | 'invite-required';
 
+export interface SportDefinition {
+  readonly id: SportID;
+  readonly labelKey: string;
+}
+
+export const sportCatalog: readonly SportDefinition[] = [
+  { id: 'basketball', labelKey: 'sportius.sport.basketball' },
+  { id: 'football', labelKey: 'sportius.sport.football' },
+  { id: 'gaelic-games', labelKey: 'sportius.sport.gaelic_games' },
+  { id: 'hockey', labelKey: 'sportius.sport.hockey' },
+  { id: 'rugby', labelKey: 'sportius.sport.rugby' },
+  { id: 'tennis', labelKey: 'sportius.sport.tennis' },
+  { id: 'swimming', labelKey: 'sportius.sport.swimming' },
+  { id: 'volleyball', labelKey: 'sportius.sport.volleyball' },
+  { id: 'other', labelKey: 'sportius.sport.other' },
+] as const;
+
 export interface RoleDefinition {
   readonly id: RoleID;
   readonly labelKey: string;

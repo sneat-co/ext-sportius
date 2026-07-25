@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { roleCatalog } from './index.js';
+import { roleCatalog, sportCatalog } from './index.js';
+
+describe('sportCatalog', () => {
+  it('uses unique stable codes and localisation keys', () => {
+    const ids = sportCatalog.map((sport) => sport.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(sportCatalog.every((sport) => sport.labelKey.startsWith('sportius.sport.'))).toBe(true);
+    expect(ids).toContain('other');
+  });
+});
 
 describe('roleCatalog', () => {
   it('uses unique stable codes and localisation keys', () => {

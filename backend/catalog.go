@@ -17,6 +17,28 @@ const (
 	SportOther      SportID = "other"
 )
 
+// SportDefinition is a stable catalogue entry. The ID is persisted; LabelKey
+// is translated by each presentation surface.
+type SportDefinition struct {
+	ID       SportID
+	LabelKey string
+}
+
+// SportCatalog is intentionally small for the first Telegram selector. The
+// open SportID type and "other" entry allow the catalogue to grow without
+// storing localised display strings in records.
+var SportCatalog = []SportDefinition{
+	{ID: SportBasketball, LabelKey: "sportius.sport.basketball"},
+	{ID: SportFootball, LabelKey: "sportius.sport.football"},
+	{ID: SportGaelic, LabelKey: "sportius.sport.gaelic_games"},
+	{ID: SportHockey, LabelKey: "sportius.sport.hockey"},
+	{ID: SportRugby, LabelKey: "sportius.sport.rugby"},
+	{ID: SportTennis, LabelKey: "sportius.sport.tennis"},
+	{ID: SportSwimming, LabelKey: "sportius.sport.swimming"},
+	{ID: SportVolleyball, LabelKey: "sportius.sport.volleyball"},
+	{ID: SportOther, LabelKey: "sportius.sport.other"},
+}
+
 type RoleID string
 
 const (
