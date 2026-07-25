@@ -1,13 +1,10 @@
 name: Publish package
 
-# Publishes @sneat/extension-template-contract — the contract surface a
-# scaffolded ext-<id> repo publishes as @sneat/extension-<id>-contract.
+# Publishes @sneat/extension-sportius-contract.
 #
-# This repo is the template for ext-<id> (the public extension-definition repo).
-# It publishes for real because sneat-ext-template consumes the published
-# package rather than a local copy: "the implementation never copies contract
-# source, it consumes the published contract package just as another extension
-# would". A template that can't install is not a working reference.
+# The implementation repository consumes this published package rather than a
+# private source copy. Publishing the stable contract independently lets bot,
+# web, and backend consumers upgrade deliberately.
 
 on:
   workflow_dispatch:
@@ -32,7 +29,7 @@ jobs:
     uses: sneat-co/cicd/.github/workflows/npm-publish.yml@main
     with:
       working-directory: frontend
-      build-command: pnpm exec nx build ext-template-contract
+      build-command: pnpm exec nx build ext-sportius-contract
       # `inputs.specifier` is empty on push, so this is a plain conventional-
       # commits release there and an explicit one on demand.
       publish-command: pnpm exec nx release ${{ inputs.specifier }} --yes && git push --follow-tags

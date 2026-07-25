@@ -1,4 +1,4 @@
-# Backend contract surface
+# Sportius backend contract
 
-Keep contract-facing Go definitions, compatibility checks, and generated-shape
-verification here. Implementation handlers belong in the paired `<id>` repository.
+Stable Go DTOs, catalogues and facade interfaces for Sportius. Implementations
+belong in `github.com/sneat-co/sportius/backend`.
