@@ -75,3 +75,21 @@ func TestGeneralOperationalRolesCanDescribePersonalExperience(t *testing.T) {
 		}
 	}
 }
+
+func TestParentGuardianCanDescribeTeamParticipationWithoutGrantingMembership(t *testing.T) {
+	for _, role := range RoleCatalog {
+		if role.ID != RoleParentGuardian {
+			continue
+		}
+		for _, scope := range role.Scopes {
+			if scope == RoleScopeTeam {
+				if role.ImpliesStaff {
+					t.Fatal("parent-guardian must not imply team staff or permissions")
+				}
+				return
+			}
+		}
+		t.Fatal("parent-guardian has no team scope")
+	}
+	t.Fatal("parent-guardian role is missing")
+}

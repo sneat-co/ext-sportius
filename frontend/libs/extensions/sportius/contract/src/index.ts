@@ -74,7 +74,7 @@ export const roleCatalog: readonly RoleDefinition[] = [
   { id: 'official', labelKey: 'sportius.role.official', scopes: ['personal', 'team'], defaultPersonal: true, impliesStaff: true },
   { id: 'volunteer', labelKey: 'sportius.role.volunteer', scopes: ['personal', 'team', 'club'], defaultPersonal: true, impliesStaff: true },
   { id: 'supporter', labelKey: 'sportius.role.supporter', scopes: ['personal'], defaultPersonal: true },
-  { id: 'parent-guardian', labelKey: 'sportius.role.parent_guardian', scopes: ['personal'], defaultPersonal: true },
+  { id: 'parent-guardian', labelKey: 'sportius.role.parent_guardian', scopes: ['personal', 'team'], defaultPersonal: true },
   { id: 'medical-welfare', labelKey: 'sportius.role.medical_welfare', scopes: ['personal', 'team', 'club'], impliesStaff: true },
   { id: 'equipment-manager', labelKey: 'sportius.role.equipment_manager', scopes: ['personal', 'team', 'club'], impliesStaff: true },
   { id: 'president', labelKey: 'sportius.role.president', scopes: ['club'], impliesStaff: true },

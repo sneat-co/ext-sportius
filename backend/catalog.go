@@ -88,7 +88,7 @@ var RoleCatalog = []RoleDefinition{
 	{ID: RoleOfficial, LabelKey: "sportius.role.official", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam}, DefaultPersonal: true, ImpliesStaff: true},
 	{ID: RoleVolunteer, LabelKey: "sportius.role.volunteer", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, DefaultPersonal: true, ImpliesStaff: true},
 	{ID: RoleSupporter, LabelKey: "sportius.role.supporter", Scopes: []RoleScope{RoleScopePersonal}, DefaultPersonal: true},
-	{ID: RoleParentGuardian, LabelKey: "sportius.role.parent_guardian", Scopes: []RoleScope{RoleScopePersonal}, DefaultPersonal: true},
+	{ID: RoleParentGuardian, LabelKey: "sportius.role.parent_guardian", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam}, DefaultPersonal: true},
 	{ID: RoleMedicalWelfare, LabelKey: "sportius.role.medical_welfare", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
 	{ID: RoleEquipmentManager, LabelKey: "sportius.role.equipment_manager", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
 	{ID: RolePresident, LabelKey: "sportius.role.president", Scopes: []RoleScope{RoleScopeClub}, ImpliesStaff: true},
