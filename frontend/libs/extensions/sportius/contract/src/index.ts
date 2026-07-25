@@ -251,6 +251,8 @@ export interface JoinTeamRequest {
   requestID: string;
   roleIDs: RoleID[];
   invitationID?: string;
+  /** Required when invitationID is supplied. */
+  claimToken?: string;
 }
 
 export interface JoinTeamResponse {

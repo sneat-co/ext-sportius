@@ -224,6 +224,8 @@ model JoinTeamRequest {
   requestID: string;
   roleIDs: string[];
   invitationID?: string;
+  /** Required when invitationID is supplied. */
+  claimToken?: string;
 }
 
 model JoinTeamResponse {

@@ -75,3 +75,24 @@ func TestInvitationAcceptanceCarriesClaimProofOnlyInRequest(t *testing.T) {
 		t.Fatalf("invitation inspection omits creation-only deep link: %s", invitationData)
 	}
 }
+
+func TestInvitationJoinCarriesClaimProofWithInvitationID(t *testing.T) {
+	request := JoinTeamRequest{
+		RequestID:    "join-1",
+		InvitationID: "invite-1",
+		ClaimToken:   "opaque-proof",
+	}
+	data, err := json.Marshal(request)
+	if err != nil {
+		t.Fatal(err)
+	}
+	jsonValue := string(data)
+	for _, fragment := range []string{
+		`"invitationID":"invite-1"`,
+		`"claimToken":"opaque-proof"`,
+	} {
+		if !strings.Contains(jsonValue, fragment) {
+			t.Fatalf("invitation join JSON %s does not contain %s", jsonValue, fragment)
+		}
+	}
+}

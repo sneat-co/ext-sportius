@@ -40,6 +40,8 @@ type JoinTeamRequest struct {
 	RequestID    string   `json:"requestID"`
 	RoleIDs      []RoleID `json:"roleIDs"`
 	InvitationID string   `json:"invitationID,omitempty"`
+	// ClaimToken is required whenever InvitationID is supplied.
+	ClaimToken string `json:"claimToken,omitempty"`
 }
 
 type JoinTeamResponse struct {
