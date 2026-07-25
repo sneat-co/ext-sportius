@@ -1,11 +1,9 @@
-## 0.0.2 (2026-07-16)
+# Changelog
 
-### 🩹 Fixes
+## 0.1.0
 
-- make the contract template buildable, and publish it ([855cc44](https://github.com/sneat-co/sneat-ext-contract-template/commit/855cc44))
-- **release:** make nx release non-interactive, and seedable ([015723a](https://github.com/sneat-co/sneat-ext-contract-template/commit/015723a))
-
-### ❤️ Thank You
-
-- Alexander Trakhimenok
-- Claude Opus 4.8
+- Define the first Sportius contract for personal sports profiles, teams,
+  clubs, participants, guardians, invitations, and team-to-club linkage.
+- Publish stable sport and role identifiers independently from display copy.
+- Keep membership rules in the facade, expose guardians through player views,
+  and support invitation preview/acceptance with stable errors.

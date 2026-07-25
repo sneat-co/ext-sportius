@@ -44,7 +44,7 @@
   },
   "release": {
     "projects": [
-      "ext-template-contract"
+      "ext-sportius-contract"
     ],
     "projectsRelationship": "fixed",
     "version": {
@@ -52,7 +52,7 @@
       "conventionalCommits": true,
       "// fallbackCurrentVersionResolver": "currentVersionResolver is git-tag (see the project's project.json); a repo with no tags yet has nothing to read, so fall back to the version on disk.",
       "fallbackCurrentVersionResolver": "disk",
-      "preVersionCommand": "pnpm exec nx run ext-template-contract:build",
+    "preVersionCommand": "pnpm exec nx run ext-sportius-contract:build",
       "versionActions": "@nx/js/src/release/version-actions"
     },
     "releaseTagPattern": "v{version}",

@@ -1,4 +1,6 @@
-# TypeSpec contract
+# Sportius TypeSpec contract
 
-Define the stable wire surface for `ext-<id>` here. Keep it independent of an
-implementation repository and treat incompatible changes as contract releases.
+`main.tsp` and `api4sportius.tsp` define the frozen HTTP/JSON boundary for
+personal sports, teams, clubs, participation and invitations. Every operation
+derives the actor from bearer authentication and returns a stable
+`SportiusError` shape on failure; request bodies never accept an actor user ID.

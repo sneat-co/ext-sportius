@@ -1,19 +1,22 @@
-# sneat-ext-contract-template
+# ext-sportius
 
-Template repository for creating a public `ext-<id>` contract repository.
+Public definition repository for the Sportius extension that powers the first
+Sneat Club surface. The contract is deliberately product-neutral: Sneat Club,
+the Sneat Telegram bot and future Sportius surfaces share these stable IDs,
+catalogues, DTOs and facade interfaces.
 
-`frontend/` is the sole owner and publisher of
-`@sneat/extension-template-contract`. The paired implementation template is
-[`sneat-ext-template`](../sneat-ext-template); it consumes this package and owns
-the runtime/app code.
-
-For a new extension, create `ext-<id>` from this template, rename `template`,
-publish the contract, and then point the `<id>` implementation at that release.
+The paired [`sportius`](https://github.com/sneat-co/sportius) repository owns
+application logic and persistence. Telegram presentation lives in
+[`sneat-bots`](https://github.com/sneat-co/sneat-bots).
 
 ## Layout
 
 ```text
-typespec/   # frozen wire contract
-backend/    # contract-facing Go definitions and checks
-frontend/   # @sneat/extension-<id>-contract workspace
+typespec/   # frozen HTTP/JSON wire contract
+backend/    # github.com/sneat-co/ext-sportius/backend
+frontend/   # @sneat/extension-sportius-contract
 ```
+
+TypeSpec is the wire source of truth. Go and TypeScript bindings are
+hand-maintained and parity-tested. This repository depends only on foundational
+types and never on an extension implementation.
