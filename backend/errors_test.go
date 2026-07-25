@@ -31,8 +31,9 @@ func TestErrorKeepsCausePrivate(t *testing.T) {
 }
 
 func TestUpdateRequestsCanExplicitlyClearOptionalFields(t *testing.T) {
-	team := UpdateTeamRequest{ClearAge: true, ClearLocation: true, ClearMedia: true}
+	team := UpdateTeamRequest{RequestID: "team-update", ClearAge: true, ClearLocation: true, ClearMedia: true}
 	club := UpdateClubRequest{
+		RequestID:         "club-update",
 		ClearPrimarySport: true,
 		ReplaceSportIDs:   true,
 		SportIDs:          []SportID{},
@@ -48,10 +49,10 @@ func TestUpdateRequestsCanExplicitlyClearOptionalFields(t *testing.T) {
 	if err != nil {
 		t.Fatalf("marshal club update: %v", err)
 	}
-	if string(teamJSON) != `{"clearAge":true,"clearLocation":true,"clearMedia":true}` {
+	if string(teamJSON) != `{"requestID":"team-update","clearAge":true,"clearLocation":true,"clearMedia":true}` {
 		t.Fatalf("unexpected team clear patch: %s", teamJSON)
 	}
-	if string(clubJSON) != `{"clearPrimarySport":true,"replaceSportIDs":true,"clearLocation":true,"clearMedia":true}` {
+	if string(clubJSON) != `{"requestID":"club-update","clearPrimarySport":true,"replaceSportIDs":true,"clearLocation":true,"clearMedia":true}` {
 		t.Fatalf("unexpected club clear patch: %s", clubJSON)
 	}
 }

@@ -90,6 +90,7 @@ type TeamBrief struct {
 	Name        string         `json:"name"`
 	SportID     SportID        `json:"sportID"`
 	Gender      GenderCategory `json:"gender"`
+	JoinPolicy  JoinPolicy     `json:"joinPolicy"`
 	Age         *AgeRange      `json:"age,omitempty"`
 	Locality    string         `json:"locality,omitempty"`
 	ClubSpaceID string         `json:"clubSpaceID,omitempty"`
@@ -166,10 +167,11 @@ type ViewerCapabilities struct {
 }
 
 type TeamView struct {
-	Profile      TeamProfile        `json:"profile"`
-	Players      []Participant      `json:"players"`
-	Staff        []Participant      `json:"staff"`
-	Capabilities ViewerCapabilities `json:"capabilities"`
+	Profile       TeamProfile        `json:"profile"`
+	Players       []Participant      `json:"players"`
+	Staff         []Participant      `json:"staff"`
+	ViewerRoleIDs []RoleID           `json:"viewerRoleIDs"`
+	Capabilities  ViewerCapabilities `json:"capabilities"`
 }
 
 type ClubView struct {

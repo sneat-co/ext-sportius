@@ -125,6 +125,7 @@ export interface TeamBrief {
   name: string;
   sportID: SportID;
   gender: GenderCategory;
+  joinPolicy: JoinPolicy;
   age?: AgeRange;
   locality?: string;
   clubSpaceID?: string;
@@ -200,6 +201,7 @@ export interface TeamView {
   profile: TeamProfile;
   players: Participant[];
   staff: Participant[];
+  viewerRoleIDs: RoleID[];
   capabilities: ViewerCapabilities;
 }
 
@@ -235,6 +237,7 @@ export interface CreateTeamRequest {
 }
 
 export interface UpdateTeamRequest {
+  requestID: string;
   name?: string;
   sportID?: SportID;
   gender?: GenderCategory;
@@ -299,6 +302,7 @@ export interface CreateClubRequest {
 }
 
 export interface UpdateClubRequest {
+  requestID: string;
   name?: string;
   primarySportID?: SportID;
   sportIDs?: SportID[];

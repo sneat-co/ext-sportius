@@ -104,6 +104,7 @@ model TeamBrief {
   name: string;
   sportID: string;
   gender: GenderCategory;
+  joinPolicy: JoinPolicy;
   age?: AgeRange;
   locality?: string;
   clubSpaceID?: string;
@@ -179,6 +180,7 @@ model TeamView {
   profile: TeamProfile;
   players: Participant[];
   staff: Participant[];
+  viewerRoleIDs: string[];
   capabilities: ViewerCapabilities;
 }
 
@@ -208,6 +210,7 @@ model CreateTeamRequest {
 }
 
 model UpdateTeamRequest {
+  requestID: string;
   name?: string;
   sportID?: string;
   gender?: GenderCategory;
@@ -272,6 +275,7 @@ model CreateClubRequest {
 }
 
 model UpdateClubRequest {
+  requestID: string;
   name?: string;
   primarySportID?: string;
   sportIDs?: string[];

@@ -24,6 +24,7 @@ type CreateTeamRequest struct {
 }
 
 type UpdateTeamRequest struct {
+	RequestID     string          `json:"requestID"`
 	Name          *string         `json:"name,omitempty"`
 	SportID       *SportID        `json:"sportID,omitempty"`
 	Gender        *GenderCategory `json:"gender,omitempty"`
@@ -88,6 +89,7 @@ type CreateClubRequest struct {
 }
 
 type UpdateClubRequest struct {
+	RequestID         string        `json:"requestID"`
 	Name              *string       `json:"name,omitempty"`
 	PrimarySportID    *SportID      `json:"primarySportID,omitempty"`
 	SportIDs          []SportID     `json:"sportIDs,omitempty"`
