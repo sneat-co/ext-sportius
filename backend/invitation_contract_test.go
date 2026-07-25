@@ -71,4 +71,7 @@ func TestInvitationAcceptanceCarriesClaimProofOnlyInRequest(t *testing.T) {
 	if strings.Contains(string(invitationData), "claimToken") {
 		t.Fatalf("invitation response must not expose claim proof: %s", invitationData)
 	}
+	if strings.Contains(string(invitationData), "deepLink") {
+		t.Fatalf("invitation inspection omits creation-only deep link: %s", invitationData)
+	}
 }

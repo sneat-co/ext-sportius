@@ -305,7 +305,8 @@ model Invitation {
   contactID: string;
   inviteeDisplayName: string;
   suggestedRoleIDs: string[];
-  deepLink: string;
+  /** Creation-only delivery link; omitted from later inspection. */
+  deepLink?: string;
 }
 
 model InvitationView {

@@ -17,5 +17,7 @@ confirmed by the invitee.
 
 Inspection and acceptance both require the opaque `claimToken` carried by the
 delivery deep link (currently mapped to the Invitus PIN). The token is request
-proof only: it is never returned on an invitation DTO or stored in a Sportius
-profile/projection.
+proof only. The full `deepLink` is returned once to the invitation creator, but
+must be stripped before the Sportius projection is persisted and is omitted
+from later inspection. The raw token is never returned separately or stored in
+a Sportius profile/projection.

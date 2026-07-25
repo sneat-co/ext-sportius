@@ -332,7 +332,8 @@ export interface Invitation {
   contactID: string;
   inviteeDisplayName: string;
   suggestedRoleIDs: RoleID[];
-  deepLink: string;
+  /** Creation-only delivery link; omitted from later inspection. */
+  deepLink?: string;
 }
 
 export interface InvitationView {

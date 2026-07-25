@@ -187,7 +187,10 @@ type Invitation struct {
 	ContactID          string    `json:"contactID"`
 	InviteeDisplayName string    `json:"inviteeDisplayName"`
 	SuggestedRoleIDs   []RoleID  `json:"suggestedRoleIDs"`
-	DeepLink           string    `json:"deepLink"`
+	// DeepLink is returned only by invitation creation. It contains delivery
+	// proof and must not be persisted in Sportius projections or returned by
+	// invitation inspection.
+	DeepLink string `json:"deepLink,omitempty"`
 }
 
 type InvitationView struct {
