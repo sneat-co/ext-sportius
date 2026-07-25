@@ -396,6 +396,11 @@ interface Teams {
     @path playerContactID: string,
   ): PlayerView | SportiusError;
 
+  @get @route("/teams/{spaceID}/guardians")
+  listGuardians(
+    @path spaceID: string,
+  ): ContactBrief[] | SportiusError;
+
   @post @route("/teams/{spaceID}/players/{playerContactID}/guardians")
   linkGuardian(
     @path spaceID: string,

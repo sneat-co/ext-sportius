@@ -19,6 +19,10 @@ type Facade interface {
 	AddTeamPlayer(ctx context.Context, actorUserID, spaceID string, request AddPlayerRequest) (PlayerView, error)
 	AddTeamStaff(ctx context.Context, actorUserID, spaceID string, request AddStaffRequest) (Participant, error)
 	GetTeamPlayer(ctx context.Context, actorUserID, spaceID, playerContactID string) (PlayerView, error)
+	// ListTeamGuardians returns reusable parent and guardian contacts to a team
+	// manager. A returned contact is not necessarily a space member and this
+	// read must not grant access.
+	ListTeamGuardians(ctx context.Context, actorUserID, spaceID string) ([]ContactBrief, error)
 	LinkGuardian(ctx context.Context, actorUserID, spaceID, playerContactID string, request LinkGuardianRequest) (PlayerView, error)
 
 	SearchClubs(ctx context.Context, actorUserID string, request SearchRequest) ([]ClubBrief, error)
