@@ -11,3 +11,5 @@ if rg -n -P \
   echo "Sportius contracts must not depend on the implementation or another extension." >&2
   exit 1
 fi
+
+node "$root_dir/scripts/check-catalog-parity.mjs"

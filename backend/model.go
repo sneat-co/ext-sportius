@@ -41,6 +41,15 @@ const (
 	JoinStatusInviteRequired JoinStatus = "invite-required"
 )
 
+type InvitationStatus string
+
+const (
+	InvitationStatusPending  InvitationStatus = "pending"
+	InvitationStatusAccepted InvitationStatus = "accepted"
+	InvitationStatusExpired  InvitationStatus = "expired"
+	InvitationStatusRevoked  InvitationStatus = "revoked"
+)
+
 type AgeRange struct {
 	MinAge *int   `json:"minAge,omitempty"`
 	MaxAge *int   `json:"maxAge,omitempty"`
@@ -77,11 +86,14 @@ type PersonalSportsProfile struct {
 }
 
 type TeamBrief struct {
-	SpaceID  string  `json:"spaceID"`
-	Name     string  `json:"name"`
-	SportID  SportID `json:"sportID"`
-	Locality string  `json:"locality,omitempty"`
-	ClubName string  `json:"clubName,omitempty"`
+	SpaceID     string         `json:"spaceID"`
+	Name        string         `json:"name"`
+	SportID     SportID        `json:"sportID"`
+	Gender      GenderCategory `json:"gender"`
+	Age         *AgeRange      `json:"age,omitempty"`
+	Locality    string         `json:"locality,omitempty"`
+	ClubSpaceID string         `json:"clubSpaceID,omitempty"`
+	ClubName    string         `json:"clubName,omitempty"`
 }
 
 type ClubBrief struct {
@@ -126,17 +138,46 @@ type Participant struct {
 	SpaceMember bool     `json:"spaceMember"`
 }
 
+// ContactBrief deliberately has no Space membership or Sportius role fields.
+// Guardians are contacts and do not gain access merely by being linked.
+type ContactBrief struct {
+	ContactID   string `json:"contactID"`
+	UserID      string `json:"userID,omitempty"`
+	DisplayName string `json:"displayName"`
+}
+
+type GuardianLink struct {
+	Contact            ContactBrief `json:"contact"`
+	RelationshipRoleID string       `json:"relationshipRoleID"`
+}
+
+type PlayerView struct {
+	Player    Participant    `json:"player"`
+	Guardians []GuardianLink `json:"guardians"`
+}
+
+// ViewerCapabilities controls which management actions presentation surfaces
+// offer. Every mutation remains authorised again by the facade.
+type ViewerCapabilities struct {
+	CanEdit               bool `json:"canEdit"`
+	CanInvite             bool `json:"canInvite"`
+	CanManageParticipants bool `json:"canManageParticipants"`
+	CanManageLinkages     bool `json:"canManageLinkages"`
+}
+
 type TeamView struct {
-	Profile TeamProfile   `json:"profile"`
-	Players []Participant `json:"players"`
-	Staff   []Participant `json:"staff"`
+	Profile      TeamProfile        `json:"profile"`
+	Players      []Participant      `json:"players"`
+	Staff        []Participant      `json:"staff"`
+	Capabilities ViewerCapabilities `json:"capabilities"`
 }
 
 type ClubView struct {
-	Profile ClubProfile   `json:"profile"`
-	Teams   []TeamBrief   `json:"teams"`
-	Staff   []Participant `json:"staff"`
-	Members []Participant `json:"members"`
+	Profile      ClubProfile        `json:"profile"`
+	Teams        []TeamBrief        `json:"teams"`
+	Staff        []Participant      `json:"staff"`
+	Members      []Participant      `json:"members"`
+	Capabilities ViewerCapabilities `json:"capabilities"`
 }
 
 type Invitation struct {
@@ -145,4 +186,18 @@ type Invitation struct {
 	Kind             SpaceKind `json:"kind"`
 	SuggestedRoleIDs []RoleID  `json:"suggestedRoleIDs"`
 	DeepLink         string    `json:"deepLink"`
+}
+
+type InvitationView struct {
+	Invitation Invitation       `json:"invitation"`
+	SpaceName  string           `json:"spaceName"`
+	Status     InvitationStatus `json:"status"`
+	ExpiresAt  string           `json:"expiresAt,omitempty"`
+}
+
+type InvitationAcceptance struct {
+	InvitationID string    `json:"invitationID"`
+	SpaceID      string    `json:"spaceID"`
+	Kind         SpaceKind `json:"kind"`
+	RoleIDs      []RoleID  `json:"roleIDs"`
 }

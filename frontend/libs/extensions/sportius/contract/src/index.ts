@@ -1,6 +1,6 @@
 export type SportID = string;
 
-export type RoleID =
+export type BuiltInRoleID =
   | 'player'
   | 'coach'
   | 'assistant-coach'
@@ -19,6 +19,7 @@ export type RoleID =
   | 'secretary'
   | 'safeguarding-officer'
   | 'other';
+export type RoleID = string;
 
 export type RoleScope = 'personal' | 'team' | 'club';
 export type ProfileVisibility = 'private' | 'public' | 'hidden';
@@ -26,6 +27,17 @@ export type SpaceKind = 'team' | 'club';
 export type GenderCategory = 'unspecified' | 'male' | 'female' | 'mixed' | 'other';
 export type JoinPolicy = 'open' | 'approval-required' | 'invite-only';
 export type JoinStatus = 'joined' | 'requested' | 'invite-required';
+export type InvitationStatus = 'pending' | 'accepted' | 'expired' | 'revoked';
+export type ErrorCode =
+  | 'validation'
+  | 'forbidden'
+  | 'not-found'
+  | 'merged'
+  | 'conflict'
+  | 'invitation-expired'
+  | 'invite-required'
+  | 'retryable'
+  | 'internal';
 
 export interface SportDefinition {
   readonly id: SportID;
@@ -112,7 +124,10 @@ export interface TeamBrief {
   spaceID: string;
   name: string;
   sportID: SportID;
+  gender: GenderCategory;
+  age?: AgeRange;
   locality?: string;
+  clubSpaceID?: string;
   clubName?: string;
 }
 
@@ -158,10 +173,34 @@ export interface Participant {
   spaceMember: boolean;
 }
 
+export interface ContactBrief {
+  contactID: string;
+  userID?: string;
+  displayName: string;
+}
+
+export interface GuardianLink {
+  contact: ContactBrief;
+  relationshipRoleID: string;
+}
+
+export interface PlayerView {
+  player: Participant;
+  guardians: GuardianLink[];
+}
+
+export interface ViewerCapabilities {
+  canEdit: boolean;
+  canInvite: boolean;
+  canManageParticipants: boolean;
+  canManageLinkages: boolean;
+}
+
 export interface TeamView {
   profile: TeamProfile;
   players: Participant[];
   staff: Participant[];
+  capabilities: ViewerCapabilities;
 }
 
 export interface ClubView {
@@ -169,10 +208,10 @@ export interface ClubView {
   teams: TeamBrief[];
   staff: Participant[];
   members: Participant[];
+  capabilities: ViewerCapabilities;
 }
 
 export interface PutPersonalSportRequest {
-  sportID: SportID;
   roleIDs: RoleID[];
   visibility: ProfileVisibility;
 }
@@ -203,6 +242,9 @@ export interface UpdateTeamRequest {
   location?: LocationHint;
   media?: MediaRef;
   joinPolicy?: JoinPolicy;
+  clearAge?: boolean;
+  clearLocation?: boolean;
+  clearMedia?: boolean;
 }
 
 export interface JoinTeamRequest {
@@ -215,19 +257,30 @@ export interface JoinTeamResponse {
   team: TeamBrief;
   status: JoinStatus;
   roleIDs: RoleID[];
+  membershipRequestID?: string;
 }
 
-export interface AddParticipantRequest {
+export interface AddPlayerRequest {
   requestID: string;
   displayName: string;
   roleIDs: RoleID[];
   userID?: string;
-  makeSpaceMember: boolean;
+}
+
+export interface AddStaffRequest {
+  requestID: string;
+  displayName: string;
+  roleIDs: RoleID[];
+  userID?: string;
+}
+
+export interface SetParticipantRolesRequest {
+  requestID: string;
+  roleIDs: RoleID[];
 }
 
 export interface LinkGuardianRequest {
   requestID: string;
-  playerContactID: string;
   guardianContactID?: string;
   guardianDisplayName?: string;
   relationshipRoleID: string;
@@ -249,6 +302,10 @@ export interface UpdateClubRequest {
   sportIDs?: SportID[];
   location?: LocationHint;
   media?: MediaRef;
+  clearPrimarySport?: boolean;
+  replaceSportIDs?: boolean;
+  clearLocation?: boolean;
+  clearMedia?: boolean;
 }
 
 export interface LinkTeamToClubRequest {
@@ -270,4 +327,30 @@ export interface Invitation {
   kind: SpaceKind;
   suggestedRoleIDs: RoleID[];
   deepLink: string;
+}
+
+export interface InvitationView {
+  invitation: Invitation;
+  spaceName: string;
+  status: InvitationStatus;
+  expiresAt?: string;
+}
+
+export interface AcceptInvitationRequest {
+  requestID: string;
+  roleIDs: RoleID[];
+}
+
+export interface InvitationAcceptance {
+  invitationID: string;
+  spaceID: string;
+  kind: SpaceKind;
+  roleIDs: RoleID[];
+}
+
+export interface SportiusError {
+  code: ErrorCode;
+  messageKey: string;
+  field?: string;
+  retryable: boolean;
 }

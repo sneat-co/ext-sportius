@@ -5,3 +5,5 @@
 - Define the first Sportius contract for personal sports profiles, teams,
   clubs, participants, guardians, invitations, and team-to-club linkage.
 - Publish stable sport and role identifiers independently from display copy.
+- Keep membership rules in the facade, expose guardians through player views,
+  and support invitation preview/acceptance with stable errors.

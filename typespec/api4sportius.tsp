@@ -36,6 +36,34 @@ enum JoinStatus {
   `invite-required`,
 }
 
+enum InvitationStatus {
+  pending,
+  accepted,
+  expired,
+  revoked,
+}
+
+enum ErrorCode {
+  validation,
+  forbidden,
+  `not-found`,
+  merged,
+  conflict,
+  `invitation-expired`,
+  `invite-required`,
+  retryable,
+  internal,
+}
+
+@error
+model SportiusError {
+  @statusCode statusCode: 400 | 403 | 404 | 409 | 410 | 500 | 503;
+  code: ErrorCode;
+  messageKey: string;
+  field?: string;
+  retryable: boolean;
+}
+
 model AgeRange {
   minAge?: int32;
   maxAge?: int32;
@@ -75,7 +103,10 @@ model TeamBrief {
   spaceID: string;
   name: string;
   sportID: string;
+  gender: GenderCategory;
+  age?: AgeRange;
   locality?: string;
+  clubSpaceID?: string;
   clubName?: string;
 }
 
@@ -121,10 +152,34 @@ model Participant {
   spaceMember: boolean;
 }
 
+model ContactBrief {
+  contactID: string;
+  userID?: string;
+  displayName: string;
+}
+
+model GuardianLink {
+  contact: ContactBrief;
+  relationshipRoleID: string;
+}
+
+model PlayerView {
+  player: Participant;
+  guardians: GuardianLink[];
+}
+
+model ViewerCapabilities {
+  canEdit: boolean;
+  canInvite: boolean;
+  canManageParticipants: boolean;
+  canManageLinkages: boolean;
+}
+
 model TeamView {
   profile: TeamProfile;
   players: Participant[];
   staff: Participant[];
+  capabilities: ViewerCapabilities;
 }
 
 model ClubView {
@@ -132,18 +187,12 @@ model ClubView {
   teams: TeamBrief[];
   staff: Participant[];
   members: Participant[];
+  capabilities: ViewerCapabilities;
 }
 
 model PutPersonalSportRequest {
-  sportID: string;
   roleIDs: string[];
   visibility: ProfileVisibility;
-}
-
-model SearchRequest {
-  name: string;
-  sportID?: string;
-  locality?: string;
 }
 
 model CreateTeamRequest {
@@ -166,6 +215,9 @@ model UpdateTeamRequest {
   location?: LocationHint;
   media?: MediaRef;
   joinPolicy?: JoinPolicy;
+  clearAge?: boolean;
+  clearLocation?: boolean;
+  clearMedia?: boolean;
 }
 
 model JoinTeamRequest {
@@ -178,19 +230,30 @@ model JoinTeamResponse {
   team: TeamBrief;
   status: JoinStatus;
   roleIDs: string[];
+  membershipRequestID?: string;
 }
 
-model AddParticipantRequest {
+model AddPlayerRequest {
   requestID: string;
   displayName: string;
   roleIDs: string[];
   userID?: string;
-  makeSpaceMember: boolean;
+}
+
+model AddStaffRequest {
+  requestID: string;
+  displayName: string;
+  roleIDs: string[];
+  userID?: string;
+}
+
+model SetParticipantRolesRequest {
+  requestID: string;
+  roleIDs: string[];
 }
 
 model LinkGuardianRequest {
   requestID: string;
-  playerContactID: string;
   guardianContactID?: string;
   guardianDisplayName?: string;
   relationshipRoleID: string;
@@ -212,6 +275,10 @@ model UpdateClubRequest {
   sportIDs?: string[];
   location?: LocationHint;
   media?: MediaRef;
+  clearPrimarySport?: boolean;
+  replaceSportIDs?: boolean;
+  clearLocation?: boolean;
+  clearMedia?: boolean;
 }
 
 model LinkTeamToClubRequest {
@@ -235,40 +302,154 @@ model Invitation {
   deepLink: string;
 }
 
-interface Personal {
-  @get @route("/home") home(): SportsHome;
-  @get @route("/profile") profile(): PersonalSportsProfile;
-  @put @route("/profile/sports/{sportID}")
-  putSport(@path sportID: string, @body body: PutPersonalSportRequest): PersonalSportsProfile;
-  @delete @route("/profile/sports/{sportID}")
-  deleteSport(@path sportID: string): PersonalSportsProfile;
+model InvitationView {
+  invitation: Invitation;
+  spaceName: string;
+  status: InvitationStatus;
+  expiresAt?: string;
 }
 
+model AcceptInvitationRequest {
+  requestID: string;
+  roleIDs: string[];
+}
+
+model InvitationAcceptance {
+  invitationID: string;
+  spaceID: string;
+  kind: SpaceKind;
+  roleIDs: string[];
+}
+
+@useAuth(BearerAuth)
+interface Personal {
+  @get @route("/home")
+  home(): SportsHome | SportiusError;
+
+  @get @route("/profile")
+  profile(): PersonalSportsProfile | SportiusError;
+
+  @put @route("/profile/sports/{sportID}")
+  putSport(
+    @path sportID: string,
+    @body body: PutPersonalSportRequest,
+  ): PersonalSportsProfile | SportiusError;
+
+  @delete @route("/profile/sports/{sportID}")
+  deleteSport(@path sportID: string): PersonalSportsProfile | SportiusError;
+}
+
+@useAuth(BearerAuth)
 interface Teams {
   @get @route("/teams/search")
-  search(@query name: string, @query sportID?: string, @query locality?: string): TeamBrief[];
-  @post @route("/teams") create(@body body: CreateTeamRequest): TeamView;
-  @get @route("/teams/{spaceID}") get(@path spaceID: string): TeamView;
-  @put @route("/teams/{spaceID}") update(@path spaceID: string, @body body: UpdateTeamRequest): TeamView;
+  search(
+    @query name: string,
+    @query sportID?: string,
+    @query locality?: string,
+  ): TeamBrief[] | SportiusError;
+
+  @post @route("/teams")
+  create(@body body: CreateTeamRequest): TeamView | SportiusError;
+
+  @get @route("/teams/{spaceID}")
+  get(@path spaceID: string): TeamView | SportiusError;
+
+  @put @route("/teams/{spaceID}")
+  update(
+    @path spaceID: string,
+    @body body: UpdateTeamRequest,
+  ): TeamView | SportiusError;
+
   @post @route("/teams/{spaceID}/join")
-  join(@path spaceID: string, @body body: JoinTeamRequest): JoinTeamResponse;
-  @post @route("/teams/{spaceID}/participants")
-  addParticipant(@path spaceID: string, @body body: AddParticipantRequest): Participant;
-  @post @route("/teams/{spaceID}/guardians")
-  linkGuardian(@path spaceID: string, @body body: LinkGuardianRequest): Participant;
+  join(
+    @path spaceID: string,
+    @body body: JoinTeamRequest,
+  ): JoinTeamResponse | SportiusError;
+
+  @post @route("/teams/{spaceID}/players")
+  addPlayer(
+    @path spaceID: string,
+    @body body: AddPlayerRequest,
+  ): PlayerView | SportiusError;
+
+  @post @route("/teams/{spaceID}/staff")
+  addStaff(
+    @path spaceID: string,
+    @body body: AddStaffRequest,
+  ): Participant | SportiusError;
+
+  @get @route("/teams/{spaceID}/players/{playerContactID}")
+  getPlayer(
+    @path spaceID: string,
+    @path playerContactID: string,
+  ): PlayerView | SportiusError;
+
+  @post @route("/teams/{spaceID}/players/{playerContactID}/guardians")
+  linkGuardian(
+    @path spaceID: string,
+    @path playerContactID: string,
+    @body body: LinkGuardianRequest,
+  ): PlayerView | SportiusError;
 }
 
+@useAuth(BearerAuth)
 interface Clubs {
   @get @route("/clubs/search")
-  search(@query name: string, @query sportID?: string, @query locality?: string): ClubBrief[];
-  @post @route("/clubs") create(@body body: CreateClubRequest): ClubView;
-  @get @route("/clubs/{spaceID}") get(@path spaceID: string): ClubView;
-  @put @route("/clubs/{spaceID}") update(@path spaceID: string, @body body: UpdateClubRequest): ClubView;
-  @post @route("/clubs/{spaceID}/teams")
-  linkTeam(@path spaceID: string, @body body: LinkTeamToClubRequest): ClubView;
+  search(
+    @query name: string,
+    @query sportID?: string,
+    @query locality?: string,
+  ): ClubBrief[] | SportiusError;
+
+  @post @route("/clubs")
+  create(@body body: CreateClubRequest): ClubView | SportiusError;
+
+  @get @route("/clubs/{spaceID}")
+  get(@path spaceID: string): ClubView | SportiusError;
+
+  @put @route("/clubs/{spaceID}")
+  update(
+    @path spaceID: string,
+    @body body: UpdateClubRequest,
+  ): ClubView | SportiusError;
+
+  @post @route("/clubs/{spaceID}/staff")
+  addStaff(
+    @path spaceID: string,
+    @body body: AddStaffRequest,
+  ): Participant | SportiusError;
 }
 
+@useAuth(BearerAuth)
+interface Participants {
+  @put @route("/participants/{kind}/{spaceID}/{contactID}/roles")
+  setRoles(
+    @path kind: SpaceKind,
+    @path spaceID: string,
+    @path contactID: string,
+    @body body: SetParticipantRolesRequest,
+  ): Participant | SportiusError;
+}
+
+@useAuth(BearerAuth)
+interface Linkages {
+  @post @route("/team-club-links")
+  linkTeamToClub(
+    @body body: LinkTeamToClubRequest,
+  ): ClubView | SportiusError;
+}
+
+@useAuth(BearerAuth)
 interface Invitations {
   @post @route("/invitations")
-  create(@body body: CreateInvitationRequest): Invitation;
+  create(@body body: CreateInvitationRequest): Invitation | SportiusError;
+
+  @get @route("/invitations/{invitationID}")
+  get(@path invitationID: string): InvitationView | SportiusError;
+
+  @post @route("/invitations/{invitationID}/accept")
+  accept(
+    @path invitationID: string,
+    @body body: AcceptInvitationRequest,
+  ): InvitationAcceptance | SportiusError;
 }

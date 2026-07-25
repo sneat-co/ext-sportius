@@ -1,7 +1,6 @@
 package sportius
 
 type PutPersonalSportRequest struct {
-	SportID    SportID           `json:"sportID"`
 	RoleIDs    []RoleID          `json:"roleIDs"`
 	Visibility ProfileVisibility `json:"visibility"`
 }
@@ -25,13 +24,16 @@ type CreateTeamRequest struct {
 }
 
 type UpdateTeamRequest struct {
-	Name       *string         `json:"name,omitempty"`
-	SportID    *SportID        `json:"sportID,omitempty"`
-	Gender     *GenderCategory `json:"gender,omitempty"`
-	Age        *AgeRange       `json:"age,omitempty"`
-	Location   *LocationHint   `json:"location,omitempty"`
-	Media      *MediaRef       `json:"media,omitempty"`
-	JoinPolicy *JoinPolicy     `json:"joinPolicy,omitempty"`
+	Name          *string         `json:"name,omitempty"`
+	SportID       *SportID        `json:"sportID,omitempty"`
+	Gender        *GenderCategory `json:"gender,omitempty"`
+	Age           *AgeRange       `json:"age,omitempty"`
+	Location      *LocationHint   `json:"location,omitempty"`
+	Media         *MediaRef       `json:"media,omitempty"`
+	JoinPolicy    *JoinPolicy     `json:"joinPolicy,omitempty"`
+	ClearAge      bool            `json:"clearAge,omitempty"`
+	ClearLocation bool            `json:"clearLocation,omitempty"`
+	ClearMedia    bool            `json:"clearMedia,omitempty"`
 }
 
 type JoinTeamRequest struct {
@@ -41,22 +43,33 @@ type JoinTeamRequest struct {
 }
 
 type JoinTeamResponse struct {
-	Team    TeamBrief  `json:"team"`
-	Status  JoinStatus `json:"status"`
-	RoleIDs []RoleID   `json:"roleIDs"`
+	Team                TeamBrief  `json:"team"`
+	Status              JoinStatus `json:"status"`
+	RoleIDs             []RoleID   `json:"roleIDs"`
+	MembershipRequestID string     `json:"membershipRequestID,omitempty"`
 }
 
-type AddParticipantRequest struct {
-	RequestID       string   `json:"requestID"`
-	DisplayName     string   `json:"displayName"`
-	RoleIDs         []RoleID `json:"roleIDs"`
-	UserID          string   `json:"userID,omitempty"`
-	MakeSpaceMember bool     `json:"makeSpaceMember"`
+type AddPlayerRequest struct {
+	RequestID   string   `json:"requestID"`
+	DisplayName string   `json:"displayName"`
+	RoleIDs     []RoleID `json:"roleIDs"`
+	UserID      string   `json:"userID,omitempty"`
+}
+
+type AddStaffRequest struct {
+	RequestID   string   `json:"requestID"`
+	DisplayName string   `json:"displayName"`
+	RoleIDs     []RoleID `json:"roleIDs"`
+	UserID      string   `json:"userID,omitempty"`
+}
+
+type SetParticipantRolesRequest struct {
+	RequestID string   `json:"requestID"`
+	RoleIDs   []RoleID `json:"roleIDs"`
 }
 
 type LinkGuardianRequest struct {
 	RequestID           string `json:"requestID"`
-	PlayerContactID     string `json:"playerContactID"`
 	GuardianContactID   string `json:"guardianContactID,omitempty"`
 	GuardianDisplayName string `json:"guardianDisplayName,omitempty"`
 	RelationshipRoleID  string `json:"relationshipRoleID"`
@@ -73,11 +86,15 @@ type CreateClubRequest struct {
 }
 
 type UpdateClubRequest struct {
-	Name           *string       `json:"name,omitempty"`
-	PrimarySportID *SportID      `json:"primarySportID,omitempty"`
-	SportIDs       []SportID     `json:"sportIDs,omitempty"`
-	Location       *LocationHint `json:"location,omitempty"`
-	Media          *MediaRef     `json:"media,omitempty"`
+	Name              *string       `json:"name,omitempty"`
+	PrimarySportID    *SportID      `json:"primarySportID,omitempty"`
+	SportIDs          []SportID     `json:"sportIDs,omitempty"`
+	Location          *LocationHint `json:"location,omitempty"`
+	Media             *MediaRef     `json:"media,omitempty"`
+	ClearPrimarySport bool          `json:"clearPrimarySport,omitempty"`
+	ReplaceSportIDs   bool          `json:"replaceSportIDs,omitempty"`
+	ClearLocation     bool          `json:"clearLocation,omitempty"`
+	ClearMedia        bool          `json:"clearMedia,omitempty"`
 }
 
 type LinkTeamToClubRequest struct {
@@ -91,4 +108,9 @@ type CreateInvitationRequest struct {
 	SpaceID          string    `json:"spaceID"`
 	Kind             SpaceKind `json:"kind"`
 	SuggestedRoleIDs []RoleID  `json:"suggestedRoleIDs"`
+}
+
+type AcceptInvitationRequest struct {
+	RequestID string   `json:"requestID"`
+	RoleIDs   []RoleID `json:"roleIDs"`
 }
