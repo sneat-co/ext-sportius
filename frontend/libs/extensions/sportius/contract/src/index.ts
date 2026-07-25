@@ -38,8 +38,8 @@ export interface RoleDefinition {
 export const roleCatalog: readonly RoleDefinition[] = [
   { id: 'player', labelKey: 'sportius.role.player', scopes: ['personal', 'team'], defaultPersonal: true },
   { id: 'coach', labelKey: 'sportius.role.coach', scopes: ['personal', 'team', 'club'], defaultPersonal: true, impliesStaff: true },
-  { id: 'assistant-coach', labelKey: 'sportius.role.assistant_coach', scopes: ['team', 'club'], impliesStaff: true },
-  { id: 'team-manager', labelKey: 'sportius.role.team_manager', scopes: ['team'], impliesStaff: true },
+  { id: 'assistant-coach', labelKey: 'sportius.role.assistant_coach', scopes: ['personal', 'team', 'club'], impliesStaff: true },
+  { id: 'team-manager', labelKey: 'sportius.role.team_manager', scopes: ['personal', 'team', 'club'], impliesStaff: true },
   { id: 'administrator', labelKey: 'sportius.role.administrator', scopes: ['personal', 'team', 'club'], impliesStaff: true },
   { id: 'organiser', labelKey: 'sportius.role.organiser', scopes: ['personal', 'team', 'club'], defaultPersonal: true, impliesStaff: true },
   { id: 'official', labelKey: 'sportius.role.official', scopes: ['personal', 'team'], defaultPersonal: true, impliesStaff: true },

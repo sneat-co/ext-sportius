@@ -32,3 +32,27 @@ func TestDefaultPersonalRolesStayCompact(t *testing.T) {
 		t.Fatalf("default personal role count = %d, want 1..8", count)
 	}
 }
+
+func TestGeneralOperationalRolesCanDescribePersonalExperience(t *testing.T) {
+	for _, roleID := range []RoleID{RoleAssistantCoach, RoleTeamManager} {
+		var role RoleDefinition
+		found := false
+		for _, candidate := range RoleCatalog {
+			if candidate.ID == roleID {
+				role = candidate
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Fatalf("role %q not found", roleID)
+		}
+		hasPersonalScope := false
+		for _, scope := range role.Scopes {
+			hasPersonalScope = hasPersonalScope || scope == RoleScopePersonal
+		}
+		if !hasPersonalScope {
+			t.Fatalf("role %q cannot be used on a personal sport profile", roleID)
+		}
+	}
+}

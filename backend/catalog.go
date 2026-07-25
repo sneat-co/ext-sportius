@@ -59,8 +59,8 @@ type RoleDefinition struct {
 var RoleCatalog = []RoleDefinition{
 	{ID: RolePlayer, LabelKey: "sportius.role.player", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam}, DefaultPersonal: true},
 	{ID: RoleCoach, LabelKey: "sportius.role.coach", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, DefaultPersonal: true, ImpliesStaff: true},
-	{ID: RoleAssistantCoach, LabelKey: "sportius.role.assistant_coach", Scopes: []RoleScope{RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
-	{ID: RoleTeamManager, LabelKey: "sportius.role.team_manager", Scopes: []RoleScope{RoleScopeTeam}, ImpliesStaff: true},
+	{ID: RoleAssistantCoach, LabelKey: "sportius.role.assistant_coach", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
+	{ID: RoleTeamManager, LabelKey: "sportius.role.team_manager", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
 	{ID: RoleAdministrator, LabelKey: "sportius.role.administrator", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, ImpliesStaff: true},
 	{ID: RoleOrganiser, LabelKey: "sportius.role.organiser", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam, RoleScopeClub}, DefaultPersonal: true, ImpliesStaff: true},
 	{ID: RoleOfficial, LabelKey: "sportius.role.official", Scopes: []RoleScope{RoleScopePersonal, RoleScopeTeam}, DefaultPersonal: true, ImpliesStaff: true},

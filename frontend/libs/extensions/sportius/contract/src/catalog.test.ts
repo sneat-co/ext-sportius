@@ -13,4 +13,10 @@ describe('roleCatalog', () => {
     expect(defaults.length).toBeGreaterThan(0);
     expect(defaults.length).toBeLessThanOrEqual(8);
   });
+
+  it('allows general operational experience on a personal sport profile', () => {
+    for (const id of ['assistant-coach', 'team-manager']) {
+      expect(roleCatalog.find((role) => role.id === id)?.scopes).toContain('personal');
+    }
+  });
 });
