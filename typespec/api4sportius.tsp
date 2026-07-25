@@ -291,6 +291,10 @@ model CreateInvitationRequest {
   requestID: string;
   spaceID: string;
   kind: SpaceKind;
+  /** Existing space contact to invite. Mutually exclusive with inviteeDisplayName. */
+  contactID?: string;
+  /** Creates a non-member space contact before inviting. Mutually exclusive with contactID. */
+  inviteeDisplayName?: string;
   suggestedRoleIDs: string[];
 }
 
@@ -298,6 +302,8 @@ model Invitation {
   invitationID: string;
   spaceID: string;
   kind: SpaceKind;
+  contactID: string;
+  inviteeDisplayName: string;
   suggestedRoleIDs: string[];
   deepLink: string;
 }
@@ -318,6 +324,7 @@ model InvitationAcceptance {
   invitationID: string;
   spaceID: string;
   kind: SpaceKind;
+  contactID: string;
   roleIDs: string[];
 }
 

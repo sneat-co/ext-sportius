@@ -104,10 +104,16 @@ type LinkTeamToClubRequest struct {
 }
 
 type CreateInvitationRequest struct {
-	RequestID        string    `json:"requestID"`
-	SpaceID          string    `json:"spaceID"`
-	Kind             SpaceKind `json:"kind"`
-	SuggestedRoleIDs []RoleID  `json:"suggestedRoleIDs"`
+	RequestID string    `json:"requestID"`
+	SpaceID   string    `json:"spaceID"`
+	Kind      SpaceKind `json:"kind"`
+	// ContactID targets an existing contact in the space. Exactly one of
+	// ContactID and InviteeDisplayName is required.
+	ContactID string `json:"contactID,omitempty"`
+	// InviteeDisplayName asks the implementation to create a non-member
+	// contact before issuing the invitation.
+	InviteeDisplayName string   `json:"inviteeDisplayName,omitempty"`
+	SuggestedRoleIDs   []RoleID `json:"suggestedRoleIDs"`
 }
 
 type AcceptInvitationRequest struct {

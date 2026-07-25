@@ -318,6 +318,10 @@ export interface CreateInvitationRequest {
   requestID: string;
   spaceID: string;
   kind: SpaceKind;
+  /** Existing space contact to invite. Mutually exclusive with inviteeDisplayName. */
+  contactID?: string;
+  /** Creates a non-member space contact before inviting. Mutually exclusive with contactID. */
+  inviteeDisplayName?: string;
   suggestedRoleIDs: RoleID[];
 }
 
@@ -325,6 +329,8 @@ export interface Invitation {
   invitationID: string;
   spaceID: string;
   kind: SpaceKind;
+  contactID: string;
+  inviteeDisplayName: string;
   suggestedRoleIDs: RoleID[];
   deepLink: string;
 }
@@ -345,6 +351,7 @@ export interface InvitationAcceptance {
   invitationID: string;
   spaceID: string;
   kind: SpaceKind;
+  contactID: string;
   roleIDs: RoleID[];
 }
 

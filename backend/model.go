@@ -181,11 +181,13 @@ type ClubView struct {
 }
 
 type Invitation struct {
-	InvitationID     string    `json:"invitationID"`
-	SpaceID          string    `json:"spaceID"`
-	Kind             SpaceKind `json:"kind"`
-	SuggestedRoleIDs []RoleID  `json:"suggestedRoleIDs"`
-	DeepLink         string    `json:"deepLink"`
+	InvitationID       string    `json:"invitationID"`
+	SpaceID            string    `json:"spaceID"`
+	Kind               SpaceKind `json:"kind"`
+	ContactID          string    `json:"contactID"`
+	InviteeDisplayName string    `json:"inviteeDisplayName"`
+	SuggestedRoleIDs   []RoleID  `json:"suggestedRoleIDs"`
+	DeepLink           string    `json:"deepLink"`
 }
 
 type InvitationView struct {
@@ -199,5 +201,6 @@ type InvitationAcceptance struct {
 	InvitationID string    `json:"invitationID"`
 	SpaceID      string    `json:"spaceID"`
 	Kind         SpaceKind `json:"kind"`
+	ContactID    string    `json:"contactID"`
 	RoleIDs      []RoleID  `json:"roleIDs"`
 }
