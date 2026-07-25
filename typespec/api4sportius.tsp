@@ -317,6 +317,8 @@ model InvitationView {
 
 model AcceptInvitationRequest {
   requestID: string;
+  /** Opaque proof carried by the personal-invitation deep link. */
+  claimToken: string;
   roleIDs: string[];
 }
 
@@ -452,7 +454,10 @@ interface Invitations {
   create(@body body: CreateInvitationRequest): Invitation | SportiusError;
 
   @get @route("/invitations/{invitationID}")
-  get(@path invitationID: string): InvitationView | SportiusError;
+  get(
+    @path invitationID: string,
+    @query claimToken: string,
+  ): InvitationView | SportiusError;
 
   @post @route("/invitations/{invitationID}/accept")
   accept(

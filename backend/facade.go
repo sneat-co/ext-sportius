@@ -30,6 +30,6 @@ type Facade interface {
 	LinkTeamToClub(ctx context.Context, actorUserID string, request LinkTeamToClubRequest) (ClubView, error)
 
 	CreateInvitation(ctx context.Context, actorUserID string, request CreateInvitationRequest) (Invitation, error)
-	GetInvitation(ctx context.Context, actorUserID, invitationID string) (InvitationView, error)
+	GetInvitation(ctx context.Context, actorUserID, invitationID, claimToken string) (InvitationView, error)
 	AcceptInvitation(ctx context.Context, actorUserID, invitationID string, request AcceptInvitationRequest) (InvitationAcceptance, error)
 }

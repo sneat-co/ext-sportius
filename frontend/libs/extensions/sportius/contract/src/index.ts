@@ -344,6 +344,8 @@ export interface InvitationView {
 
 export interface AcceptInvitationRequest {
   requestID: string;
+  /** Opaque proof carried by the personal-invitation deep link. */
+  claimToken: string;
   roleIDs: RoleID[];
 }
 

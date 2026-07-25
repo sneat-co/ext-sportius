@@ -14,3 +14,8 @@ contact first. Acceptance claims that contact and returns its stable
 The generic Sneat membership role carried by the invitation is separate from
 the zero-or-more Sportius participant roles suggested by the inviter and
 confirmed by the invitee.
+
+Inspection and acceptance both require the opaque `claimToken` carried by the
+delivery deep link (currently mapped to the Invitus PIN). The token is request
+proof only: it is never returned on an invitation DTO or stored in a Sportius
+profile/projection.

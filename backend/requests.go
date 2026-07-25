@@ -117,6 +117,7 @@ type CreateInvitationRequest struct {
 }
 
 type AcceptInvitationRequest struct {
-	RequestID string   `json:"requestID"`
-	RoleIDs   []RoleID `json:"roleIDs"`
+	RequestID  string   `json:"requestID"`
+	ClaimToken string   `json:"claimToken"`
+	RoleIDs    []RoleID `json:"roleIDs"`
 }

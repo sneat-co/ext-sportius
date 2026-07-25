@@ -49,3 +49,26 @@ func TestInvitationAcceptanceReturnsClaimedContact(t *testing.T) {
 		t.Fatalf("acceptance JSON does not identify the claimed contact: %s", data)
 	}
 }
+
+func TestInvitationAcceptanceCarriesClaimProofOnlyInRequest(t *testing.T) {
+	request := AcceptInvitationRequest{
+		RequestID:  "accept-1",
+		ClaimToken: "opaque-proof",
+	}
+
+	data, err := json.Marshal(request)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(data), `"claimToken":"opaque-proof"`) {
+		t.Fatalf("acceptance request JSON has no claim proof: %s", data)
+	}
+
+	invitationData, err := json.Marshal(Invitation{InvitationID: "invite-1"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(string(invitationData), "claimToken") {
+		t.Fatalf("invitation response must not expose claim proof: %s", invitationData)
+	}
+}
