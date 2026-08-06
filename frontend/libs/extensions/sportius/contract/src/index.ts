@@ -370,3 +370,8 @@ export interface SportiusError {
   field?: string;
   retryable: boolean;
 }
+
+// Sportius' existing list UI is a published consumer of this contract. Keep its
+// legacy list surface available while the newer team and club API above grows
+// independently.
+export * from './legacy-list';
