@@ -15,10 +15,11 @@ on:
           conventional commits pick the bump. Needed once per repo: with no git
           tag to resolve from, nx falls back to the manifest and bumps from
           there, so the first release lands wherever that maths says rather than
-          where you want it. Sportius' compatibility seed is 0.1.0: although
-          the initial automatic run published 0.2.0, consumers constrained to
-          ^0.1.0 need this one-time explicit release from main before normal
-          conventional-commit releases resume.
+          where you want it. Sportius 0.1.0 was later seeded, but it contains
+          only the newer team-and-club API. The compatible correction is 0.1.1:
+          merge its release-staging PR first (it deliberately carries no
+          conventional version bump), then dispatch this workflow from main
+          with 0.1.1. Normal conventional-commit releases resume afterwards.
         required: false
         default: ''
   push:
