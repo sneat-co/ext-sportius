@@ -1,3 +1,14 @@
+## 0.3.0 (2026-08-14)
+
+### 🚀 Features
+
+- expose competition roster authority contract ([#4](https://github.com/sneat-co/ext-sportius/pull/4))
+- extend sport catalogue for Competios events ([5f68fb8](https://github.com/sneat-co/ext-sportius/commit/5f68fb8))
+
+### ❤️ Thank You
+
+- Alexander Trakhimenok @trakhimenok
+
 ## 0.1.1 (2026-08-06)
 
 This was a version bump only, there were no code changes.
