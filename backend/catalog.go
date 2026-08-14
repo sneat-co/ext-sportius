@@ -6,15 +6,19 @@ const ExtensionID = "sportius"
 type SportID string
 
 const (
-	SportBasketball SportID = "basketball"
-	SportFootball   SportID = "football"
-	SportGaelic     SportID = "gaelic-games"
-	SportHockey     SportID = "hockey"
-	SportRugby      SportID = "rugby"
-	SportTennis     SportID = "tennis"
-	SportSwimming   SportID = "swimming"
-	SportVolleyball SportID = "volleyball"
-	SportOther      SportID = "other"
+	SportBasketball  SportID = "basketball"
+	SportChess       SportID = "chess"
+	SportFootball    SportID = "football"
+	SportGaelic      SportID = "gaelic-games"
+	SportHockey      SportID = "hockey"
+	SportMultiSport  SportID = "multi-sport"
+	SportRunning     SportID = "running"
+	SportRugby       SportID = "rugby"
+	SportSwimming    SportID = "swimming"
+	SportTableTennis SportID = "table-tennis"
+	SportTennis      SportID = "tennis"
+	SportVolleyball  SportID = "volleyball"
+	SportOther       SportID = "other"
 )
 
 // SportDefinition is a stable catalogue entry. The ID is persisted; LabelKey
@@ -29,12 +33,16 @@ type SportDefinition struct {
 // storing localised display strings in records.
 var SportCatalog = []SportDefinition{
 	{ID: SportBasketball, LabelKey: "sportius.sport.basketball"},
+	{ID: SportChess, LabelKey: "sportius.sport.chess"},
 	{ID: SportFootball, LabelKey: "sportius.sport.football"},
 	{ID: SportGaelic, LabelKey: "sportius.sport.gaelic_games"},
 	{ID: SportHockey, LabelKey: "sportius.sport.hockey"},
+	{ID: SportMultiSport, LabelKey: "sportius.sport.multi_sport"},
+	{ID: SportRunning, LabelKey: "sportius.sport.running"},
 	{ID: SportRugby, LabelKey: "sportius.sport.rugby"},
-	{ID: SportTennis, LabelKey: "sportius.sport.tennis"},
 	{ID: SportSwimming, LabelKey: "sportius.sport.swimming"},
+	{ID: SportTableTennis, LabelKey: "sportius.sport.table_tennis"},
+	{ID: SportTennis, LabelKey: "sportius.sport.tennis"},
 	{ID: SportVolleyball, LabelKey: "sportius.sport.volleyball"},
 	{ID: SportOther, LabelKey: "sportius.sport.other"},
 }

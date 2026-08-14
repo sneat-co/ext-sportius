@@ -7,6 +7,7 @@ describe('sportCatalog', () => {
     expect(new Set(ids).size).toBe(ids.length);
     expect(sportCatalog.every((sport) => sport.labelKey.startsWith('sportius.sport.'))).toBe(true);
     expect(ids).toContain('other');
+    expect(ids).toEqual(expect.arrayContaining(['chess', 'table-tennis', 'running', 'multi-sport']));
   });
 });
 

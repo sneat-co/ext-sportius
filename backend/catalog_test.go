@@ -19,6 +19,11 @@ func TestSportCatalogHasStableUniqueCodes(t *testing.T) {
 	if !seen[SportOther] {
 		t.Fatal("extensible sport catalogue has no other entry")
 	}
+	for _, required := range []SportID{SportChess, SportTableTennis, SportRunning, SportMultiSport} {
+		if !seen[required] {
+			t.Fatalf("Competios event sport %q is missing", required)
+		}
+	}
 }
 
 func TestRoleCatalogHasStableUniqueCodes(t *testing.T) {

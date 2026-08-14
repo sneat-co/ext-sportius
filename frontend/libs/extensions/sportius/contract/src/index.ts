@@ -46,12 +46,16 @@ export interface SportDefinition {
 
 export const sportCatalog: readonly SportDefinition[] = [
   { id: 'basketball', labelKey: 'sportius.sport.basketball' },
+  { id: 'chess', labelKey: 'sportius.sport.chess' },
   { id: 'football', labelKey: 'sportius.sport.football' },
   { id: 'gaelic-games', labelKey: 'sportius.sport.gaelic_games' },
   { id: 'hockey', labelKey: 'sportius.sport.hockey' },
+  { id: 'multi-sport', labelKey: 'sportius.sport.multi_sport' },
+  { id: 'running', labelKey: 'sportius.sport.running' },
   { id: 'rugby', labelKey: 'sportius.sport.rugby' },
-  { id: 'tennis', labelKey: 'sportius.sport.tennis' },
   { id: 'swimming', labelKey: 'sportius.sport.swimming' },
+  { id: 'table-tennis', labelKey: 'sportius.sport.table_tennis' },
+  { id: 'tennis', labelKey: 'sportius.sport.tennis' },
   { id: 'volleyball', labelKey: 'sportius.sport.volleyball' },
   { id: 'other', labelKey: 'sportius.sport.other' },
 ] as const;
